@@ -6,6 +6,7 @@
 
 #include <sys/socket.h>
 #include <netinet/in.h>
+#include <unistd.h>
 #include <fcntl.h>
 
 namespace pony {
@@ -16,8 +17,8 @@ class Address
     unsigned short port;
 
 public:
-    Address(unsigned int _address = 0, unsigned short _port = 0)
-        : address(_address), port(_port) {}
+    Address(unsigned int addr = 0, unsigned short prt = 0)
+        : address(addr), port(prt) {}
 
     Address(unsigned char fst, unsigned char snd, unsigned char thd
             ,unsigned char fth, unsigned short prt) : port(prt) {
