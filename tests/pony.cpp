@@ -9,52 +9,84 @@ using namespace pony;
 
 TEST_CASE("Pony - Godlike network infrastructure", "General tests") {
 
-    SECTION( "Address & Port by default" ) {
+    SECTION("Address & Port by default") {
         Address Addr;
-        REQUIRE( 0 == Addr.GetAddress() );
-        REQUIRE( 0 == Addr.GetPort() );
+        REQUIRE(0 == Addr.GetAddress());
+        REQUIRE(0 == Addr.GetPort());
     }
-    SECTION( "Address & port inits" ) {
+
+    SECTION("Address & port inits") {
         Address Addr(0x7f000001, 3000);
-        REQUIRE( 0x7f000001 == Addr.GetAddress() );
-        REQUIRE( 3000 == Addr.GetPort() );
+        REQUIRE(0x7f000001 == Addr.GetAddress());
+        REQUIRE(3000 == Addr.GetPort());
     }
-    SECTION( "Address & port inits" ) {
-        Address Addr(0x7f, 0x00, 0x00, 0x01, 3000);
-        REQUIRE( 0x7f000001 == Addr.GetAddress() );
-        REQUIRE( 3000 == Addr.GetPort() );
+
+    SECTION("Address & port inits 2") {
+        Address Addr(0x7f,0x00,0x00,0x01, 3000);
+        REQUIRE(0x7f000001 == Addr.GetAddress());
+        REQUIRE(3000 == Addr.GetPort());
     }
-    SECTION( "Socket by default" ) {
+
+    SECTION("Addresses A equal, ports A equal") {
+        Address Addr1(0x7f,0x00,0x00,0x01, 3000);
+        Address Addr2(0x7f,0x00,0x00,0x01, 3000);
+        REQUIRE(Addr1 == Addr2);
+    }
+
+    SECTION("Addresses aren't equal, ports A equal") {
+        Address Addr1(0x7f,0x00,0x00,0x01, 3000);
+        Address Addr2(0x7f,0x00,0x00,0x02, 3000);
+        REQUIRE(Addr1 != Addr2);
+    }
+
+    SECTION("Addresses A equal, ports aren't equal") {
+        Address Addr1(0x7f,0x00,0x00,0x01, 3000);
+        Address Addr2(0x7f,0x00,0x00,0x01, 3001);
+        REQUIRE(Addr1 != Addr2);
+    }
+
+    SECTION("Socket by default") {
         Socket Sock;
         REQUIRE(false == Sock.IsOpen());
     }
+
+    SECTION("Open/Close Socket") {
+        Socket Sock;
+
+        Sock.Open(3000);
+        REQUIRE(true == Sock.IsOpen());
+
+        Sock.Close();
+        REQUIRE(false == Sock.IsOpen());
+    }
+
 }
 
 SCENARIO("Godlike network infrastructure tests", "Pony") {
 
-    GIVEN( "Pony class" ) {
+    GIVEN("Pony class") {
 
-        WHEN( "Address & Socket" ) {
+        WHEN("Address & Socket") {
             Address Addr;
             Socket Sock;
-            THEN( "By default" ) {
-                REQUIRE( 0 == Addr.GetAddress());
-                REQUIRE( 0 == Addr.GetPort());
+            THEN("By default") {
+                REQUIRE(0 == Addr.GetAddress());
+                REQUIRE(0 == Addr.GetPort());
                 REQUIRE(false == Sock.IsOpen());
             }
         }
 
-        WHEN( "Address only" ) {
+        WHEN( "Address only") {
             Address Addr;
-            THEN( "By default" ) {
-                REQUIRE( 0 == Addr.GetAddress());
-                REQUIRE( 0 == Addr.GetPort());
+            THEN("By default") {
+                REQUIRE(0 == Addr.GetAddress());
+                REQUIRE(0 == Addr.GetPort());
             }
         }
 
-        WHEN( "Socket only" ) {
+        WHEN( "Socket only") {
             Socket Sock;
-            THEN( "By default" ) {
+            THEN("By default") {
                 REQUIRE(false == Sock.IsOpen());
             }
         }
