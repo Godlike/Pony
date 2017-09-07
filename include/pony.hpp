@@ -13,15 +13,17 @@ namespace pony {
 
 class Address
 {
-    unsigned int address;
+    unsigned address;
     unsigned short port;
 
 public:
-    Address(unsigned int addr = 0, unsigned short prt = 0)
-        : address(addr), port(prt) {}
+    Address() : address(0), port(0) {}
+
+    Address(unsigned int addr, unsigned short port)
+        : address(addr), port(port) {}
 
     Address(unsigned char fst, unsigned char snd, unsigned char thd
-            ,unsigned char fth, unsigned short prt) : port(prt) {
+            ,unsigned char fth, unsigned short port) : port(port) {
         address = (fst << 24) | (snd << 16) | (thd << 8) | fth;
     }
 
@@ -46,6 +48,7 @@ public:
     Socket() : socket(0) {}
 
     bool IsOpen() const { return socket > 0; }
+
     void Close() {
         if ( ! socket)
             return;
@@ -68,7 +71,7 @@ public:
         address.sin_addr.s_addr = INADDR_ANY;
         address.sin_port = htons((unsigned short) port);
 
-        if (bind(socket, (const sockaddr*) &address, sizeof(sockaddr_in)) < 0){
+        if (bind(socket, (const sockaddr*) &address, sizeof(sockaddr_in)) < 0) {
             Close();
             return false;
         }

@@ -1,52 +1,64 @@
 
-#include <iostream>
-using namespace std;
+#define CATCH_CONFIG_MAIN
+#include "catch.hpp"
 
 #include <pony.hpp>
+
+using namespace std;
 using namespace pony;
 
-int test_address()
-{
-    Address address;
-    return 0;
+TEST_CASE("Pony - Godlike network infrastructure", "General tests") {
+
+    SECTION( "Address & Port by default" ) {
+        Address Addr;
+        REQUIRE( 0 == Addr.GetAddress() );
+        REQUIRE( 0 == Addr.GetPort() );
+    }
+    SECTION( "Address & port inits" ) {
+        Address Addr(0x7f000001, 3000);
+        REQUIRE( 0x7f000001 == Addr.GetAddress() );
+        REQUIRE( 3000 == Addr.GetPort() );
+    }
+    SECTION( "Address & port inits" ) {
+        Address Addr(0x7f, 0x00, 0x00, 0x01, 3000);
+        REQUIRE( 0x7f000001 == Addr.GetAddress() );
+        REQUIRE( 3000 == Addr.GetPort() );
+    }
+    SECTION( "Socket by default" ) {
+        Socket Sock;
+        REQUIRE(false == Sock.IsOpen());
+    }
 }
 
-int test_socket()
-{
-    Socket socket;
-    return 0;
-}
+SCENARIO("Godlike network infrastructure tests", "Pony") {
 
-int tests()
-{
-    int ret = 0;
+    GIVEN( "Pony class" ) {
 
-    ret = test_address();
-    if (ret) return ret;
+        WHEN( "Address & Socket" ) {
+            Address Addr;
+            Socket Sock;
+            THEN( "By default" ) {
+                REQUIRE( 0 == Addr.GetAddress());
+                REQUIRE( 0 == Addr.GetPort());
+                REQUIRE(false == Sock.IsOpen());
+            }
+        }
 
-    ret = test_socket();
-    if (ret) return ret;
+        WHEN( "Address only" ) {
+            Address Addr;
+            THEN( "By default" ) {
+                REQUIRE( 0 == Addr.GetAddress());
+                REQUIRE( 0 == Addr.GetPort());
+            }
+        }
 
-    return ret;
-}
+        WHEN( "Socket only" ) {
+            Socket Sock;
+            THEN( "By default" ) {
+                REQUIRE(false == Sock.IsOpen());
+            }
+        }
 
-void prologe() {
-    cout << "    Pony unit tests, v1.0\n Gl!n, Saint-Petersburg, 2017\n\n...\n";
-}
+    }
 
-void epiloge(int ret) {
-    cout << "\t" << ((ret)? "fail!": "pass.") << "\n\n";
-}
-
-int main()
-{
-    int ret = 0;
-
-    prologe();
-
-    ret = tests();
-
-    epiloge(ret);
-
-    return 0;
 }
