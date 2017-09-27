@@ -22,7 +22,7 @@ Socket::Socket() : m_socket(0) {}
 
 bool Socket::IsOpen() const
 {
-    return socket > 0;
+    return m_socket > 0;
 }
 
 void Socket::Close()
@@ -67,20 +67,20 @@ bool Socket::Open(unsigned short port)
 
 int Socket::Send(const Address & dst, const void * data, unsigned size)
 {
-        if ((m_socket == 0) || ( ! data) || (size <=0))
-            return -1;
+    if ((m_socket == 0) || ( ! data) || (size <=0))
+        return -1;
 
-        sockaddr_in address;
-        address.sin_family = AF_INET;
-        address.sin_addr.s_addr = htonl(dst.GetAddress());
-        address.sin_port        = htons((unsigned short) dst.GetPort());
+    sockaddr_in address;
+    address.sin_family = AF_INET;
+    address.sin_addr.s_addr = htonl(dst.GetAddress());
+    address.sin_port        = htons((unsigned short) dst.GetPort());
 
-        int sended_bytes = sendto(m_socket, (const char*)data, size, 0, (sockaddr*)&address, sizeof(sockaddr_in));
-        if (size - sended_bytes)
-            return 0;
+    int sended_bytes = sendto(m_socket, (const char*)data, size, 0, (sockaddr*)&address, sizeof(sockaddr_in));
+    if (size - sended_bytes)
+        return 0;
 
-        return sended_bytes;
-    }
+    return sended_bytes;
+}
 
 int Socket::Receive(Address & sender, void * data, unsigned size)
 {

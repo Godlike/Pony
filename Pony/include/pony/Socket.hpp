@@ -18,9 +18,10 @@ class Socket
 public:
     Socket();
 
-    void Close();
-    bool Open(unsigned short port);
     bool IsOpen() const;
+
+    bool Open(unsigned short port);
+    void Close();
 
     int Send(const Address & dst, const void * data, unsigned size);
     int Receive(Address & sender, void * data, unsigned size);

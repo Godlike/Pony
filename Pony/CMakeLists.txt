@@ -12,7 +12,7 @@ if(NOT DEFINED PONY_LIB)
     set(PONY_LIB ${PONY_NAME} CACHE STRING "Pony library name.")
 endif ()
 
-project(${PONY_NAME})
+project(${PONY_LIB})
 
 set(CMAKE_CXX_STANDARD 14)
 
