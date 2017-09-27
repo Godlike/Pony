@@ -33,18 +33,12 @@ include_directories(
     ${PONY_ROOT}/include
 )
 
-#set(PONY_HEADERS
-#    include/pony/Address.hpp
-#    include/pony/Socket.hpp
-#)
-
 set(PONY_SOURCES
     source/Address.cpp
     source/Socket.cpp
 )
 
 add_library(${PONY_LIB}
-#    ${PONY_HEADERS}
     ${PONY_SOURCES}
 )
 
