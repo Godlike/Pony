@@ -9,14 +9,32 @@
 #include <pony/Address.hpp>
 #include <pony/Socket.hpp>
 
-#include <sys/types.h>
-#include <sys/socket.h>
-#include <netinet/in.h>
-#include <unistd.h>
-#include <fcntl.h>
+#if defined(_WIN32)
+	#include <winsock2.h>
+	#pragma comment( lib, "ws2_32.lib" )
+	#pragma warning( disable : 4996  ) // get rid of all secure crt warning. (sscanf_s)
+#else
+	#include <sys/socket.h>
+	#include <netinet/in.h>
+	#include <sys/types.h>
+	#include <netinet/in.h>
+	#include <unistd.h>
+	#include <fcntl.h>
+#endif
 
 namespace pony
 {
+
+#if defined(_WIN32)
+void wait_seconds(float seconds) {
+    Sleep((int)(seconds * 1000.0f));
+}
+#else
+#include <unistd.h>
+void wait_seconds(float seconds) {
+    usleep((int)(seconds * 1000000.0f));
+}
+#endif
 
 Socket::Socket() : m_socket(0) {}
 
@@ -29,7 +47,11 @@ void Socket::Close()
 {
     if ( ! m_socket)
 	return;
+#if defined(_WIN32)
+    closesocket(m_socket);
+#else
     close(m_socket);
+#endif
     m_socket = 0;
 }
 
@@ -55,13 +77,20 @@ bool Socket::Open(unsigned short port)
         return false;
     }
 
+#if defined(_WIN32)
+    DWORD nonBlocking = 1;
+    if (ioctlsocket( socket, FIONBIO, &nonBlocking) != 0) {
+	printf( "failed to set non-blocking socket\n" );
+	Close();
+	return false;
+    }
+#else
     int nonBlocking = 1;
-
     if (fcntl(m_socket, F_SETFL, O_NONBLOCK, nonBlocking) == -1) {
         Close();
         return false;
     }
-
+#endif
     return true;
 }
 
@@ -88,6 +117,9 @@ int Socket::Recv(Address & sender, void * data, unsigned size)
         return -1;
 
     sockaddr_in from;
+#if defined(_WIN32)
+	typedef int socklen_t;
+#endif
     socklen_t fromLength = sizeof(from);
 
     int received_bytes = recvfrom(m_socket, (char*)data, size, 0, (sockaddr*)&from, &fromLength);

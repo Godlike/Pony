@@ -38,4 +38,4 @@ private:
 
 }
 
-#endif // PONY_SOCKET_HPP
+#endif/*PONY_SOCKET_HPP*/

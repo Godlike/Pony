@@ -6,7 +6,7 @@
 /* Original story "Networking for Game Programmers" by Glenn Fiedler
  */
 
-#include "pony/Address.hpp"
+#include <pony/Address.hpp>
 
 namespace pony
 {
