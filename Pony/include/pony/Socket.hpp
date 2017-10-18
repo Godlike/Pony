@@ -15,19 +15,19 @@
 namespace pony
 {
 
-class Socket
+class PONY_EXPORT Socket
 {
 
 public:
-    PONY_EXPORT Socket();
+    Socket();
 
-    PONY_EXPORT bool IsOpen() const;
+    bool IsOpen() const;
 
-    PONY_EXPORT bool Open(unsigned short port);
-    PONY_EXPORT void Close();
+    bool Open(unsigned short port);
+    void Close();
 
-    PONY_EXPORT int Send(const Address & dst, const void * data, unsigned size);
-    PONY_EXPORT int Receive(Address & sender, void * data, unsigned size);
+    int Send(const Address & dst, const void * data, unsigned size);
+    int Recv(Address & sender, void * data, unsigned size);
 
 protected:
 

@@ -6,8 +6,8 @@
 /* Original story "Networking for Game Programmers" by Glenn Fiedler
  */
 
-#include "pony/Address.hpp"
-#include "pony/Socket.hpp"
+#include <pony/Address.hpp>
+#include <pony/Socket.hpp>
 
 #include <sys/types.h>
 #include <sys/socket.h>
@@ -82,7 +82,7 @@ int Socket::Send(const Address & dst, const void * data, unsigned size)
     return sended_bytes;
 }
 
-int Socket::Receive(Address & sender, void * data, unsigned size)
+int Socket::Recv(Address & sender, void * data, unsigned size)
 {
     if ((m_socket == 0) || ( ! data) || (size <=0))
         return -1;
