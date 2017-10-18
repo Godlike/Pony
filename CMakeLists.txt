@@ -9,6 +9,7 @@ project(PonyProject CXX)
 
 option(PONY_BUILD_DOCS "Build Pony project's docs" OFF)
 option(PONY_BUILD_TESTS "Build Pony project's tests" ON)
+option(BUILD_SHARED_LIBS "Build Pony as shared sets" ON)
 
 if (UNIX)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++14 -Wall -Werror -pedantic")
@@ -21,7 +22,7 @@ endif()
 
 set(PONY_ROOT ${CMAKE_CURRENT_SOURCE_DIR}/Pony CACHE STRING "Path to Pony project's root")
 
-set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/../output/arc)
+set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/../output/lib)
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/../output/lib)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/../output)
 

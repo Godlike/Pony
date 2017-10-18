@@ -9,6 +9,8 @@
 #ifndef PONY_ADDRESS_HPP
 #define PONY_ADDRESS_HPP
 
+#include <pony/SharedMacros.hpp>
+
 namespace pony
 {
 
@@ -16,16 +18,16 @@ class Address
 {
 
 public:
-    Address();
-    Address(unsigned int address);
-    Address(unsigned int address, unsigned short port);
-    Address(unsigned char fst, unsigned char snd, unsigned char thd, unsigned char fth, unsigned short port);
+    PONY_EXPORT Address();
+    PONY_EXPORT Address(unsigned int address);
+    PONY_EXPORT Address(unsigned int address, unsigned short port);
+    PONY_EXPORT Address(unsigned char fst, unsigned char snd, unsigned char thd, unsigned char fth, unsigned short port);
 
-    unsigned int GetAddress() const;
-    unsigned short GetPort() const;
+    PONY_EXPORT unsigned int GetAddress() const;
+    PONY_EXPORT unsigned short GetPort() const;
 
-    const bool operator == (const Address & rhs);
-    const bool operator != (const Address & rhs);
+    PONY_EXPORT const bool operator == (const Address & rhs);
+    PONY_EXPORT const bool operator != (const Address & rhs);
 
 protected:
 
