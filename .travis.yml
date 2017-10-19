@@ -47,7 +47,7 @@ before_install:
 - git submodule update --init --recursive
 
 script:
-- mkdir build && cd build && cmake .. && make -j{nproc}
+- mkdir build && cd build && cmake .. && make
 #- ctest -VV
 
 notifications:
