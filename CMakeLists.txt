@@ -9,9 +9,9 @@ project(PonyProject CXX)
 
 option(PONY_BUILD_DOCS "Build Pony project's docs" OFF)
 option(PONY_BUILD_TESTS "Build Pony project's tests" ON)
+option(BUILD_SHARED_LIBS "Build Pony as shared sets" ON)
 
 set (CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)
-#option(BUILD_SHARED_LIBS "Build Pony as shared sets" ON)
 
 if (UNIX)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++14 -Wall -Werror -pedantic")
