@@ -22,7 +22,7 @@ build:
 
 test_script:
   - cd %APPVEYOR_BUILD_FOLDER%/build
-#  - ctest -VV -C %CONFIGURATION%
+  - ctest -VV -C %CONFIGURATION%
 
 notifications:
 - provider: Email
