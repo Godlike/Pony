@@ -9,61 +9,27 @@ env:
     - BUILD_DIR: build
 
 sudo: required
-os: linux
-dist: trusty
-language: cpp
-compiler: gcc
 
 matrix:
-  exclude:
-  - compiler: gcc
   include:
-  - compiler: gcc
+    - os: linux
     addons:
       apt:
         sources:
-        - ubuntu-toolchain-r-test
+          - ubuntu-toolchain-r-test
         packages:
-        - g++-6
-    env: COMPILER=g++-6
-  - addons:
-    apt:
-        sources:
-        - ubuntu-toolchain-r-test
-        packages:
-        - g++-6
-        - doxygen
-        - doxygen-doc
-        - doxygen-latex
-        - doxygen-gui
-        - graphviz
-    env:
-    - COMPILER=g++-6
-    - BUILD_DOCUMENTATION=true
-  - compiler: clang
-    addons:
-      apt:
-        sources:
-        - ubuntu-toolchain-r-test
-        - llvm-toolchain-precise-3.9
-        packages:
-        - libc++-dev
-        - clang-3.9
-        - g++-6
-    env: COMPILER=clang++-3.9
-
-git:
-  submodules: false
+          - g++-6
+      env:
+        - MATRIX_EVAL="CC=gcc-6 && CXX=g++-6"
 
 before_install:
 - sudo apt-get -qq update
+- eval "${MATRIX_EVAL}"
 - git submodule update --init --recursive
 
 script:
 - mkdir build && cd build && cmake .. && make
 - ctest -VV
-
-after_success:
 
 notifications:
   email:

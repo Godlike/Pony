@@ -7,8 +7,8 @@ configuration:
   - Release
 platform: x64
 clone_folder: "c:\\Pony"
+
 init:
-  - ps: iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
 install:
   - git submodule update --init --recursive
   - mkdir build
@@ -20,15 +20,13 @@ build:
   parallel: true
   verbosity: minimal
 
-test_script:
+test:
   - cd %APPVEYOR_BUILD_FOLDER%/build
   - ctest -VV -C %CONFIGURATION%
 
 notifications:
-- provider: Email
-  to:
-    - iuniqums@gmail.com
+  - provider: Email
+  to: - iuniqums@gmail.com
   on_build_success: false
   on_build_failure: true
   on_build_status_changed: true
-  
