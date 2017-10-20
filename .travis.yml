@@ -9,6 +9,8 @@ env:
     - BUILD_DIR: build
 
 sudo: required
+os: linux
+dist: trusty
 
 matrix:
   include:
