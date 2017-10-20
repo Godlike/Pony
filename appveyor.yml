@@ -8,7 +8,6 @@ configuration:
 platform: x64
 clone_folder: "c:\\Pony"
 
-init:
 install:
   - git submodule update --init --recursive
   - mkdir build
@@ -26,8 +25,8 @@ test:
 
 notifications:
   - provider: Email
-  to:
-    - iuniqums@gmail.com
+to:
+  - iuniqums@gmail.com
   on_build_success: false
   on_build_failure: true
   on_build_status_changed: true
