@@ -1,40 +1,40 @@
 branches:
-  except:
-    gh-pages
+    except:
+	gh-pages
 
 env:
-  global:
-    - GH_REPO_NAME: Pony
-    - GH_REPO_REF: github.com/Godlike/Pony.git
-    - BUILD_DIR: build
+    global:
+	- GH_REPO_NAME: Pony
+	- GH_REPO_REF: github.com/Godlike/Pony.git
+#	- BUILD_DIR: build
 
+language: cpp
 sudo: required
-os: linux
-dist: trusty
 
-matrix:
-  include:
-    addons:
-      apt:
-        sources:
-          - ubuntu-toolchain-r-test
-        packages:
-          - g++-6
-      env:
-        - MATRIX_EVAL="CC=gcc-6 && CXX=g++-6"
+os:
+    - linux
+#    - osx
+
+compiler:
+    - g++
+#    - clang
+
+dist: trusty
+#osx_image: xcode10
 
 before_install:
-- sudo apt-get -qq update
-- eval "${MATRIX_EVAL}"
-- git submodule update --init --recursive
+#    - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew update          ; fi
+#    - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew install graphviz; fi
+    - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then sudo apt-get -qq update; fi
+    - git submodule update --init --recursive
 
 script:
-- mkdir build && cd build && cmake .. && make
-- ctest -VV
+    - mkdir build && cd build && cmake .. && make
+    - ctest -VV
 
 notifications:
-  email:
-    recipients:
-    - iuniqums@gmail.com
-    on_success: change
-    on_failure: always
+    email:
+	recipients:
+	    - iuniqums@gmail.com
+	on_success: change
+	on_failure: always
