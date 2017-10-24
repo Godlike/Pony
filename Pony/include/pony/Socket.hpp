@@ -10,12 +10,12 @@
 #define PONY_SOCKET_HPP
 
 #include <pony/Address.hpp>
-#include <pony/SharedMacros.hpp>
+//#include <pony/SharedMacros.hpp>
 
 namespace pony
 {
 
-class PONY_EXPORT Socket
+class/*PONY_EXPORT*/Socket
 {
 
 public:
@@ -38,4 +38,4 @@ private:
 
 }
 
-#endif/*PONY_SOCKET_HPP*/
+#endif//PONY_SOCKET_HPP

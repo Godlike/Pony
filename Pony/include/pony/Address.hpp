@@ -9,12 +9,12 @@
 #ifndef PONY_ADDRESS_HPP
 #define PONY_ADDRESS_HPP
 
-#include <pony/SharedMacros.hpp>
+//#include <pony/SharedMacros.hpp>
 
 namespace pony
 {
 
-class PONY_EXPORT Address
+class/*PONY_EXPORT*/Address
 {
 
 public:
@@ -39,4 +39,4 @@ private:
 
 }
 
-#endif // PONY_ADDRESS_HPP
+#endif//PONY_ADDRESS_HPP
