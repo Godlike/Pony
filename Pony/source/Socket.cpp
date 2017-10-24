@@ -62,7 +62,6 @@ bool Socket::Open(unsigned short port)
 
     m_socket = ::socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP);
     if (m_socket <= 0) {
-	//printf("::socket return %d\n", m_socket);
 	m_socket = 0;
 	return false;
     }
@@ -81,7 +80,6 @@ bool Socket::Open(unsigned short port)
 #if defined(_WIN32)
     DWORD nonBlocking = 1;
     if (ioctlsocket(m_socket, FIONBIO, &nonBlocking) != 0) {
-	//printf( "failed to set non-blocking socket\n" );
 	Close();
 	return false;
     }
@@ -119,7 +117,7 @@ int Socket::Recv(Address & sender, void * data, unsigned size)
 
     sockaddr_in from;
 #if defined(_WIN32)
-	typedef int socklen_t;
+    typedef int socklen_t;
 #endif
     socklen_t fromLength = sizeof(from);
 
