@@ -10,13 +10,18 @@ env:
 language: cpp
 sudo: required
 
-matrix:
-  include:
+os: osx
+#  - linux
+#  - osx
+
+compiler: g++
+#matrix:
+#  include:
 #  - os: linux
 #    dist: trusty
 #    compiler: g++
-  - os: osx
-    compiler: clang
+#  - os: osx
+#    compiler: clang
 
 
 before_install:
