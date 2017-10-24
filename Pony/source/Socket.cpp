@@ -79,8 +79,8 @@ bool Socket::Open(unsigned short port)
 
 #if defined(_WIN32)
     DWORD nonBlocking = 1;
-    if (ioctlsocket( socket, FIONBIO, &nonBlocking) != 0) {
-	printf( "failed to set non-blocking socket\n" );
+    if (ioctlsocket(m_socket, FIONBIO, &nonBlocking) != 0) {
+	//printf( "failed to set non-blocking socket\n" );
 	Close();
 	return false;
     }
