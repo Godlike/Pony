@@ -10,23 +10,13 @@ env:
 language: cpp
 sudo: required
 
-#os:
-#  - linux
-#  -- osx
-
-#compiler:
-#  - g++
-#  - clang
-
 matrix:
   include:
+  - os: osx
+    compiler: clang
   - os: linux
     dist: trusty
     compiler: g++
-  - os: osx
-    compiler: clang
-
-#dist: trusty
 
 before_install:
   - git submodule update --init --recursive
