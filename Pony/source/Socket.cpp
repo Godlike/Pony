@@ -62,7 +62,7 @@ bool Socket::Open(unsigned short port)
 
     m_socket = ::socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP);
     if (m_socket <= 0) {
-	printf("::socket return %d\n", m_socket);
+	//printf("::socket return %d\n", m_socket);
 	m_socket = 0;
 	return false;
     }
