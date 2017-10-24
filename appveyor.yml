@@ -24,7 +24,7 @@ build:
 
 test_script:
   - cd %APPVEYOR_BUILD_FOLDER%\build
-  - ctest -VV
+  - ctest -VV -C %CONFIGURATION%
 
 notifications:
 - provider: Email
@@ -33,5 +33,3 @@ notifications:
   on_build_status_changed: true
   on_build_success: false
   on_build_failure: true
-
-
