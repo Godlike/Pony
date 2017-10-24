@@ -7,7 +7,7 @@ configuration:
   - Release
 
 platform: x64
-clone_folder: "c:\\Pony"
+clone_folder: "c:\\PonyProject"
 
 init:
   - ps: iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
