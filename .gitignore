@@ -10,3 +10,4 @@ build*
 *.json
 *.suo
 *.db
+*.log
