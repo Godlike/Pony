@@ -12,11 +12,12 @@ sudo: required
 
 matrix:
   include:
+#  - os: linux
+#    dist: trusty
+#    compiler: g++
   - os: osx
     compiler: clang
-  - os: linux
-    dist: trusty
-    compiler: g++
+
 
 before_install:
   - git submodule update --init --recursive
