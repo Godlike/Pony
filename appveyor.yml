@@ -19,7 +19,7 @@ install:
   - cmake -G "Visual Studio 15 2017 Win64" ..
 
 build:
-  project: "build\\Pony.sln"
+  project: "build\\PonyProject.sln"
   parallel: true
 
 test_script:
