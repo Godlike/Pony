@@ -4,6 +4,6 @@ set -e
 
 mkdir $BUILD_DIR && cd $BUILD_DIR
 
-cmake .. && make -j${nproc}
+cmake -DBUILD_SHARED_LIBS=ON .. && make -j${nproc}
 
 ctest -VV
