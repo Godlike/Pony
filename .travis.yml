@@ -18,17 +18,16 @@ compiler: g++
 dist: trusty
 
 env:
-  - MATRIX_EVAL="CC=gcc && CXX=g++"
-  - BUILD_DIR="build"
+  - MATRIX_EVAL="CC=gcc && CXX=g++ && BUILD_DIR=build"
 
 before_install:
-  - eval "${MATRIX_EVAL} ${BUILD_DIR}"
+  - eval "${MATRIX_EVAL}"
   - git submodule update --init --recursive
 
 script:
   - cd $TRAVIS_BUILD_DIR
-  - chmod +x travisBuildScript.sh
-  - ./travisBuildScript.sh
+  - chmod +x travisBuild.sh
+  - ./travisBuild.sh
 
 notifications:
   email:
