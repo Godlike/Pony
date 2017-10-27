@@ -10,27 +10,26 @@
 #define PONY_SOCKET_HPP
 
 #include <pony/Address.hpp>
-//#include <pony/SharedMacros.hpp>
+#include <pony/SharedMacros.hpp>
 
 namespace pony
 {
 
-class/*PONY_EXPORT*/Socket
+class Socket
 {
 
 public:
-    Socket();
+    PONY_EXPORT Socket();
 
-    bool IsOpen() const;
+    PONY_EXPORT bool IsOpen() const;
 
-    bool Open(unsigned short port);
-    void Close();
+    PONY_EXPORT bool Open(unsigned short port);
+    PONY_EXPORT void Close();
 
-    int Send(const Address & dst, const void * data, unsigned size);
-    int Recv(Address & sender, void * data, unsigned size);
+    PONY_EXPORT int Send(const Address & dst, const void * data, unsigned size);
+    PONY_EXPORT int Recv(Address & sender, void * data, unsigned size);
 
 protected:
-
 private:
     signed m_socket;
 
