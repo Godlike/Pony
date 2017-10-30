@@ -23,14 +23,14 @@ TEST_CASE("Socket test", "[]")
 
     REQUIRE(socket.Open(33333));
     REQUIRE(true == socket.IsOpen());
-    REQUIRE(socket.Close());)
+    socket.Close();
 
     socketsKill();
 }
 
 TEST_CASE("Socket testing", "[]")
 {
-    Socket socket();
+    Socket socket;
 
     REQUIRE(socketsInit());
 
@@ -48,13 +48,13 @@ TEST_CASE("Socket testing", "[]")
 	    int bytes = socket.Recv(sender, buff,sizeof buff);
 	    if ( ! bytes)
 		break;
-	    printf("received packet from %d.%d.%d.%d:%d (%d bytes)\n",
+	    printf("received packet from %x:%d (%d bytes)\n",
 		    sender.GetAddress(), sender.GetPort(), bytes);
 	}
 
 	//wait_seconds(0.25f);
     }
-    REQUIRE(socket.Close());)
+    socket.Close();
 
     socketsKill();
 }

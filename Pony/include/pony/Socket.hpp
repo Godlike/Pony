@@ -23,7 +23,7 @@ inline bool socketsInit()
 {
 #if defined(_WIN32)
     WSADATA WsaData;
-    return WSAStartup(MAKEWORD(2,2), &WsaData) == NO_ERROR;
+    return (WSAStartup(MAKEWORD(2,2), &WsaData) == 0);
 #else
     return true;
 #endif
