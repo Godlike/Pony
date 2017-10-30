@@ -15,7 +15,8 @@ init:
 install:
   - git submodule update --init --recursive
   - mkdir build && cd build
-  - cmake -G "Visual Studio 15 2017 Win64" -DCMAKE_WINDOWS_EXPORT_ALL_SYMBOLS=TRUE -DBUILD_SHARED_LIBS=TURE ..
+#  - cmake -G "Visual Studio 15 2017 Win64" -DCMAKE_WINDOWS_EXPORT_ALL_SYMBOLS=TRUE -DBUILD_SHARED_LIBS=TURE ..
+  - cmake -G "Visual Studio 15 2017 Win64" ..
 
 build:
   project: "build\\PonyProject.sln"

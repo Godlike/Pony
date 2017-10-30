@@ -18,10 +18,7 @@ os:
 compiler: g++
 dist: trusty
 
-#env:  - MATRIX_EVAL="CC=gcc && CXX=g++ && BUILD_DIR=build"
-
 before_install:
-  - eval "${MATRIX_EVAL}"
   - git submodule update --init --recursive
 
 script:
