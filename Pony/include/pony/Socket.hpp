@@ -10,8 +10,9 @@
 #define PONY_SOCKET_HPP
 
 #include <pony/Address.hpp>
-//#include <pony/SharedMacros.hpp>
-
+#if defined(_WIN32)
+#include <winsock2.h>
+#endif
 namespace pony
 {
 
@@ -31,7 +32,12 @@ public:
 
 protected:
 private:
-    signed m_socket;
+#if defined(_WIN32)
+    SOCKET
+#else
+    signed
+#endif
+    m_socket;
 
 };
 

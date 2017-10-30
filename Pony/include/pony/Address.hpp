@@ -9,8 +9,6 @@
 #ifndef PONY_ADDRESS_HPP
 #define PONY_ADDRESS_HPP
 
-//#include <pony/SharedMacros.hpp>
-
 namespace pony
 {
 
