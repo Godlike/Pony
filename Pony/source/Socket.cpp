@@ -10,9 +10,6 @@
 #include <pony/Socket.hpp>
 
 #if defined(_WIN32)
-	#include <winsock2.h>
-	#pragma comment( lib, "ws2_32.lib" )
-	#pragma warning( disable : 4996  ) // get rid of all secure crt warning. (sscanf_s)
 #else
 	#include <sys/socket.h>
 	#include <netinet/in.h>
@@ -30,7 +27,6 @@ void wait_seconds(float seconds) {
     Sleep((int)(seconds * 1000.0f));
 }
 #else
-#include <unistd.h>
 void wait_seconds(float seconds) {
     usleep((int)(seconds * 1000000.0f));
 }
@@ -116,9 +112,11 @@ int Socket::Recv(Address & sender, void * data, unsigned size)
         return -1;
 
     sockaddr_in from;
+
 #if defined(_WIN32)
     typedef int socklen_t;
 #endif
+
     socklen_t fromLength = sizeof(from);
 
     int received_bytes = recvfrom(m_socket, (char*)data, size, 0, (sockaddr*)&from, &fromLength);

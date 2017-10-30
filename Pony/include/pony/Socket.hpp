@@ -11,10 +11,30 @@
 
 #include <pony/Address.hpp>
 #if defined(_WIN32)
-#include <winsock2.h>
+    #include <winsock2.h>
+    #pragma comment( lib, "ws2_32.lib" )
 #endif
+
 namespace pony
 {
+
+///HACK: to make Winsock happy we need in socketInit()/Kill()!
+inline bool socketsInit()
+{
+#if defined(_WIN32)
+    WSADATA WsaData;
+    return WSAStartup(MAKEWORD(2,2), &WsaData) == NO_ERROR;
+#else
+    return true;
+#endif
+}
+
+inline void socketsKill()
+{
+#if defined (_WIN32)
+    WSACleanup();
+#endif
+}
 
 class Socket
 {
