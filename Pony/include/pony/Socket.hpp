@@ -6,8 +6,8 @@
 /* Original story "Networking for Game Programmers" by Glenn Fiedler
  */
 
-#ifndef PONY_SOCKET_HPP
-#define PONY_SOCKET_HPP
+#ifndef ___PONY__SOCKET_HPP___
+#define ___PONY__SOCKET_HPP___
 
 #include <pony/Address.hpp>
 
@@ -37,9 +37,11 @@ inline void socketsKill()
 #endif
 }
 
+/**
+ * @brief BSD Socket wrapper
+ */
 class Socket
 {
-
 public:
     Socket();
     ~Socket();
@@ -60,9 +62,8 @@ private:
     signed
 #endif
     m_socket;
-
 };
 
-}
+} // namespacew Pony
 
-#endif//PONY_SOCKET_HPP
+#endif // ___PONY__SOCKET_HPP___

@@ -38,7 +38,7 @@ TEST_CASE("Valid initialization", "[Socket]")
 const char data[] = "Hello world!";
 const unsigned int localhost = (0x1 | 127 << 24);
 
-unsigned nrTest = 10;
+unsigned nrTest = 1;
 
 TEST_CASE("Hello World!", "[Socket]")
 {
@@ -62,7 +62,7 @@ TEST_CASE("Hello World!", "[Socket]")
 
 	std::cout << buff << std::endl;
 
-    } while (nrTest--);
+    } while (--nrTest);
 
     socket.Close();
 
