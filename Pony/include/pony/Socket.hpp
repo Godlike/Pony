@@ -10,6 +10,7 @@
 #define PONY_SOCKET_HPP
 
 #include <pony/Address.hpp>
+
 #if defined(_WIN32)
     #include <winsock2.h>
     #pragma comment( lib, "ws2_32.lib" )
@@ -31,7 +32,7 @@ inline bool socketsInit()
 
 inline void socketsKill()
 {
-#if defined (_WIN32)
+#if defined(_WIN32)
     WSACleanup();
 #endif
 }
@@ -41,13 +42,14 @@ class Socket
 
 public:
     Socket();
+    ~Socket();
 
     bool IsOpen() const;
 
-    bool Open(unsigned short port);
+    bool Open(const unsigned short port);
     void Close();
 
-    int Send(const Address & dst, const void * data, unsigned size);
+    int Send(const Address & dst, const void * const data, const unsigned size);
     int Recv(Address & sender, void * data, unsigned size);
 
 protected:

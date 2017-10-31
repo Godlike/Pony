@@ -10,30 +10,30 @@ TEST_CASE("Address defaults test", "[]")
 {
     Address address;
 
-    REQUIRE(0xef000001 == address.GetAddress());
-    REQUIRE(0xffff == address.GetPort());
+    REQUIRE(0 == address.GetAddress());
+    REQUIRE(0 == address.GetPort());
 }
 
 TEST_CASE("Address tests", "[]")
 {
-    Address address(0xef, 0x0, 0x0, 0x1, 0xffff);
+    Address address(0x7f000001, 0x8235);
 
-    REQUIRE(0xef000001 == address.GetAddress());
-    REQUIRE(0xffff == address.GetPort());
+    REQUIRE(0x7f000001 == address.GetAddress());
+    REQUIRE(0x8235 == address.GetPort());
 }
 
 TEST_CASE("Address tests 2", "[]")
 {
-    Address address(0xef000001, 0xffff);
+    Address address(127,0,0,1, 33333);
 
-    REQUIRE(0xef000001 == address.GetAddress());
-    REQUIRE(0xffff == address.GetPort());
+    REQUIRE(0x7f000001 == address.GetAddress());
+    REQUIRE(33333 == address.GetPort());
 }
 
 TEST_CASE("Equal test", "[]")
 {
-    Address addrA(0xef000001, 0xffff);
-    Address addrB(0xef000001, 0xffff);
+    Address addrA(127,0,0,1, 33333);
+    Address addrB(127,0,0,1, 33333);
 
     REQUIRE(addrA.GetAddress() == addrB.GetAddress());
     REQUIRE(addrA.GetPort() == addrB.GetPort());
@@ -41,8 +41,8 @@ TEST_CASE("Equal test", "[]")
 
 TEST_CASE("Not equal test", "[]")
 {
-    Address addrA(0xef000001, 0xffff);
-    Address addrB(0xef000002, 0xfffe);
+    Address addrA(127,0,0,1, 33333);
+    Address addrB(127,0,0,2, 33334);
 
     REQUIRE(addrA.GetAddress() != addrB.GetAddress());
     REQUIRE(addrA.GetPort() != addrB.GetPort());

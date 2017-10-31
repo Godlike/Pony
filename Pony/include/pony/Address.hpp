@@ -17,11 +17,15 @@ class Address
 
 public:
     Address();
-    Address(unsigned int address);
-    Address(unsigned int address, unsigned short port);
-    Address(unsigned char fst, unsigned char snd, unsigned char thd, unsigned char fth, unsigned short port);
+    Address(const unsigned int address);
+    Address(const unsigned int address, const unsigned short port);
+    Address(const unsigned char fst, const unsigned char snd, const unsigned char thd, const unsigned char fth, const unsigned short port);
 
     unsigned int GetAddress() const;
+    unsigned char GetFst() const;
+    unsigned char GetSnd() const;
+    unsigned char GetThd() const;
+    unsigned char GetFth() const;
     unsigned short GetPort() const;
 
     const bool operator == (const Address & rhs);

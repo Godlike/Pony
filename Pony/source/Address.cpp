@@ -11,9 +11,9 @@
 namespace pony
 {
 
-Address::Address() : m_address(0xef000001), m_port(0xffff) {}
+Address::Address() : m_address(0), m_port(0) {}
 
-Address::Address(unsigned address) : m_address(address), m_port(0xffff) {}
+Address::Address(unsigned address) : m_address(address), m_port(0) {}
 
 Address::Address(unsigned address, unsigned short port) : m_address(address), m_port(port) {}
 
@@ -23,6 +23,26 @@ Address::Address(unsigned char fst, unsigned char snd, unsigned char thd, unsign
 }
 
 unsigned Address::GetAddress() const
+{
+    return m_address;
+}
+
+unsigned char Address::GetFst() const
+{
+    return (m_address >> 24);
+}
+
+unsigned char Address::GetSnd() const
+{
+    return (m_address >> 16);
+}
+
+unsigned char Address::GetThd() const
+{
+    return (m_address >>  8);
+}
+
+unsigned char Address::GetFth() const
 {
     return m_address;
 }
