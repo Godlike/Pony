@@ -38,7 +38,7 @@ TEST_CASE("Valid initialization", "[Socket]")
 const char data[] = "Hello world!";
 const unsigned int localhost = (0x1 | 127 << 24);
 
-unsigned nrTest = 1;
+unsigned nrTest = 10;
 
 TEST_CASE("Hello World!", "[Socket]")
 {
@@ -56,12 +56,13 @@ TEST_CASE("Hello World!", "[Socket]")
 	Address sender;
 	char buff[256];
 
-	REQUIRE(socket.Recv(sender, buff,sizeof buff) == sizeof data);
-	REQUIRE(localhost == sender.GetAddress());
-	REQUIRE(port == sender.GetPort());
-
-	std::cout << buff << std::endl;
-
+	signed received = socket.Recv(sender, buff,sizeof buff);
+	if (received) {
+	    REQUIRE(sizeof data == received);
+	    std::cout << buff << std::endl;
+	    REQUIRE(localhost == sender.GetAddress());
+	    REQUIRE(port == sender.GetPort());
+	}
     } while (--nrTest);
 
     socket.Close();
