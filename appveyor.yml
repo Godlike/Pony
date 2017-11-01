@@ -20,6 +20,7 @@ install:
 build:
   project: "build\\PonyProject.sln"
   parallel: true
+  verbosity: minimal
 
 test_script:
   - cd %APPVEYOR_BUILD_FOLDER%\build

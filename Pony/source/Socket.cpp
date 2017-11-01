@@ -106,7 +106,7 @@ signed Socket::Send(const Address& dst, const void* data, unsigned size)
     address.sin_addr.s_addr = htonl(dst.GetAddress());
     address.sin_port = htons(dst.GetPort());
 
-    unsigned sended = sendto(m_socket, data, size, 0, (sockaddr *) &address, sizeof(sockaddr_in));
+    unsigned sended = sendto(m_socket, const_cast<char*>(data), size, 0, (sockaddr *) &address, sizeof(sockaddr_in));
     if (size - sended)
         return 0;
 
@@ -124,7 +124,7 @@ signed Socket::Recv(Address& sender, void* data, unsigned size)
 #endif
     socklen_t fromLength = sizeof(from);
 
-    int received = recvfrom(m_socket, data, size, 0, (sockaddr *) &from, &fromLength);
+    int received = recvfrom(m_socket, const_cast<char*>(data), size, 0, (sockaddr *) &from, &fromLength);
     if (received <= 0)
         return 0;
 
