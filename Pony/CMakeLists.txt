@@ -42,4 +42,9 @@ add_library(${PONY_LIB}
     ${PONY_SOURCES}
 )
 
-target_link_libraries(${PONY_LIB})
+if (UNIX)
+    target_link_libraries(${PONY_LIB})
+elseif (WIN32)
+#    find_library(WS2_32_LIBRARY ws2_32)
+    target_link_libraries(${PONY_LIB} ws2_32)
+endif()

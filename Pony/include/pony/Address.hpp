@@ -6,25 +6,25 @@
 /* Original story "Networking for Game Programmers" by Glenn Fiedler
  */
 
-#ifndef ___PONY__ADDRESS_HPP___
-#define ___PONY__ADDRESS_HPP___
+#ifndef PONY_ADDRESS_HPP
+#define PONY_ADDRESS_HPP
 
 namespace pony
 {
 /**
  * @brief Address
  *
- * IP Address/Port pair.
+ * Adderss - abstraction of IP Address + UDP Port.
  */
 class Address
 {
 public:
     Address();
-    Address(const unsigned int address);
-    Address(const unsigned int address, const unsigned short port);
-    Address(const unsigned char fst, const unsigned char snd, const unsigned char thd, const unsigned char fth, const unsigned short port);
+    Address(unsigned address);
+    Address(unsigned address, unsigned short port);
+    Address(unsigned char fst, unsigned char snd, unsigned char thd, unsigned char fth, unsigned short port);
 
-    unsigned int GetAddress() const;
+    unsigned GetAddress() const;
     unsigned short GetPort() const;
 
     unsigned char GetFst() const;
@@ -32,15 +32,15 @@ public:
     unsigned char GetThd() const;
     unsigned char GetFth() const;
 
-    const bool operator == (const Address & rhs);
-    const bool operator != (const Address & rhs);
+    const bool operator == (const Address& rhs);
+    const bool operator != (const Address& rhs);
 
 protected:
 private:
-    unsigned int m_address;
+    unsigned m_address;
     unsigned short m_port;
 };
 
-} // namespace Pony
+} // namespace pony
 
-#endif // ___PONY__ADDRESS_HPP___
+#endif // PONY_ADDRESS_HPP

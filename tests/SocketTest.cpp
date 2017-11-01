@@ -10,20 +10,20 @@ using namespace pony;
 
 TEST_CASE("Invalid initialization", "[Socket]")
 {
-    socketsInit();
+    SocketsInit();
 
     Socket socket;
 
     REQUIRE(false == socket.IsOpen());
 
-    socketsKill();
+    SocketsKill();
 }
 
 const unsigned short port = 33333;
 
 TEST_CASE("Valid initialization", "[Socket]")
 {
-    socketsInit();
+    SocketsInit();
 
     Socket socket;
 
@@ -32,7 +32,7 @@ TEST_CASE("Valid initialization", "[Socket]")
 
     socket.Close();
 
-    socketsKill();
+    SocketsKill();
 }
 
 const char data[] = "Hello world!";
@@ -42,7 +42,7 @@ unsigned nrTest = 1;
 
 TEST_CASE("Hello World!", "[Socket]")
 {
-    socketsInit();
+    SocketsInit();
 
     Socket socket;
 
@@ -66,5 +66,5 @@ TEST_CASE("Hello World!", "[Socket]")
 
     socket.Close();
 
-    socketsKill();
+    SocketsKill();
 }

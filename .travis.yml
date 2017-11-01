@@ -29,6 +29,6 @@ script:
 notifications:
   email:
     recipients:
-      - iuniqums@gmail.com
+    - iuniqums@gmail.com
     on_success: change
     on_failure: always

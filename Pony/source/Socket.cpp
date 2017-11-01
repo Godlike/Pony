@@ -20,6 +20,23 @@
 namespace pony
 {
 
+bool SocketsInit()
+{
+#if defined(_WIN32)
+    WSADATA WsaData;
+    return (WSAStartup(MAKEWORD(2,2), &WsaData) == 0);
+#else
+    return true;
+#endif
+}
+
+void SocketsKill()
+{
+#if defined(_WIN32)
+    WSACleanup();
+#endif
+}
+
 Socket::Socket() : m_socket(0) {}
 
 Socket::~Socket()
@@ -34,7 +51,7 @@ bool Socket::IsOpen() const
 
 void Socket::Close()
 {
-    if ( ! m_socket)
+    if (!m_socket)
 	return;
 #if defined(_WIN32)
     closesocket(m_socket);
@@ -56,9 +73,9 @@ bool Socket::Open(unsigned short port)
     }
 
     sockaddr_in address;
-    address.sin_family      = AF_INET;
+    address.sin_family = AF_INET;
     address.sin_addr.s_addr = INADDR_ANY;
-    address.sin_port        = htons((unsigned short) port);
+    address.sin_port = htons(port);
 
     if (bind(m_socket, (const sockaddr *)&address, sizeof(sockaddr_in)) < 0) {
         Close();
@@ -79,26 +96,26 @@ bool Socket::Open(unsigned short port)
     return true;
 }
 
-int Socket::Send(const Address & dst, const void * const data, const unsigned size)
+signed Socket::Send(const Address& dst, const void* data, unsigned size)
 {
-    if ((m_socket == 0) || ( !data) || (size <= 0))
+    if ((m_socket == 0) || (!data) || (size <= 0))
         return -1;
 
     sockaddr_in address;
-    address.sin_family      = AF_INET;
+    address.sin_family = AF_INET;
     address.sin_addr.s_addr = htonl(dst.GetAddress());
-    address.sin_port        = htons((unsigned short) dst.GetPort());
+    address.sin_port = htons(dst.GetPort());
 
-    unsigned sended = sendto(m_socket, (const char*)data, size, 0, (sockaddr *) &address, sizeof(sockaddr_in));
+    unsigned sended = sendto(m_socket, data, size, 0, (sockaddr *) &address, sizeof(sockaddr_in));
     if (size - sended)
         return 0;
 
     return sended;
 }
 
-int Socket::Recv(Address & sender, void * data, const unsigned size)
+signed Socket::Recv(Address& sender, void* data, unsigned size)
 {
-    if ((m_socket == 0) || ( ! data) || (size <= 0))
+    if ((m_socket == 0) || (!data) || (size <= 0))
         return -1;
 
     sockaddr_in from;
@@ -107,7 +124,7 @@ int Socket::Recv(Address & sender, void * data, const unsigned size)
 #endif
     socklen_t fromLength = sizeof(from);
 
-    int received = recvfrom(m_socket, (char*)data, size, 0, (sockaddr*)&from, &fromLength);
+    int received = recvfrom(m_socket, data, size, 0, (sockaddr *) &from, &fromLength);
     if (received <= 0)
         return 0;
 

@@ -6,36 +6,22 @@
 /* Original story "Networking for Game Programmers" by Glenn Fiedler
  */
 
-#ifndef ___PONY__SOCKET_HPP___
-#define ___PONY__SOCKET_HPP___
+#ifndef PONY_SOCKET_HPP
+#define PONY_SOCKET_HPP
 
 #include <pony/Address.hpp>
 
 #if defined(_WIN32)
     #include <winsock2.h>
-    #pragma comment( lib, "ws2_32.lib" )
+//    #pragma comment( lib, "ws2_32.lib" )
 #endif
 
 namespace pony
 {
 
-///HACK: to make Winsock happy we need in socketInit()/Kill()!
-inline bool socketsInit()
-{
-#if defined(_WIN32)
-    WSADATA WsaData;
-    return (WSAStartup(MAKEWORD(2,2), &WsaData) == 0);
-#else
-    return true;
-#endif
-}
+bool SocketsInit();
 
-inline void socketsKill()
-{
-#if defined(_WIN32)
-    WSACleanup();
-#endif
-}
+void SocketsKill();
 
 /**
  * @brief BSD Socket wrapper
@@ -48,11 +34,11 @@ public:
 
     bool IsOpen() const;
 
-    bool Open(const unsigned short port);
+    bool Open(unsigned short port);
     void Close();
 
-    int Send(const Address & dst, const void * const data, const unsigned size);
-    int Recv(Address & sender, void * data, unsigned size);
+    signed Send(const Address& dst, const void* data, unsigned size);
+    signed Recv(Address& sender, void* data, unsigned size);
 
 protected:
 private:
@@ -64,6 +50,6 @@ private:
     m_socket;
 };
 
-} // namespacew Pony
+} // namespace pony
 
-#endif // ___PONY__SOCKET_HPP___
+#endif // PONY_SOCKET_HPP
