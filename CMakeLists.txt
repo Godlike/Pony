@@ -7,17 +7,7 @@ cmake_policy(VERSION 3.0)
 
 project(PonyProject CXX)
 
-#option(PONY_BUILD_DOCS "Build Pony project's docs" OFF)
 option(PONY_BUILD_TESTS "Build Pony project's tests" ON)
-
-#if (UNIX)
-#    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -Wall -Werror -pedantic")
-#    set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -s -O3")
-#    set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -g3 -ggdb3 -O0")
-#elseif(WIN32)
-#    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /std:c++14 /MP /W3")
-#    add_definitions(-D_CRT_SECURE_NO_WARNINGS)
-#endif()
 
 set(PONY_ROOT ${CMAKE_CURRENT_SOURCE_DIR}/Pony CACHE STRING "Path to Pony project's root")
 
@@ -33,7 +23,3 @@ if (${PONY_BUILD_TESTS})
     enable_testing()
     add_subdirectory(${TEST_ROOT})
 endif()
-
-#if (${PONY_BUILD_DOCS})
-#    add_subdirectory(docs)
-#endif()

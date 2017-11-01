@@ -11,11 +11,7 @@
 
 namespace pony
 {
-/**
- * @brief Address
- *
- * Adderss - abstraction of IP Address + UDP Port.
- */
+
 class Address
 {
 public:
@@ -32,8 +28,8 @@ public:
     unsigned char GetThd() const;
     unsigned char GetFth() const;
 
-    const bool operator == (const Address& rhs);
-    const bool operator != (const Address& rhs);
+    bool operator == (const Address& rhs) const;
+    bool operator != (const Address& rhs) const;
 
 protected:
 private:

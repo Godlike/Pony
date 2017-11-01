@@ -52,12 +52,12 @@ unsigned short Address::GetPort() const
     return m_port;
 }
 
-const bool Address::operator== (const Address& rhs)
+bool Address::operator== (const Address& rhs) const
 {
     return (m_address == rhs.GetAddress() && m_port == rhs.GetPort());
 }
 
-const bool Address::operator!= (const Address& rhs)
+bool Address::operator!= (const Address& rhs) const
 {
     return !(*this == rhs);
 }

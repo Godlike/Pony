@@ -13,7 +13,6 @@
 
 #if defined(_WIN32)
     #include <winsock2.h>
-//    #pragma comment( lib, "ws2_32.lib" )
 #endif
 
 namespace pony
@@ -23,9 +22,6 @@ bool SocketsInit();
 
 void SocketsKill();
 
-/**
- * @brief BSD Socket wrapper
- */
 class Socket
 {
 public:
