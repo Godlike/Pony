@@ -109,7 +109,7 @@ int32_t Socket::Send(const Address& destination, const void* data, uint32_t size
     address.sin_addr.s_addr = htonl(destination.GetAddress());
     address.sin_port = htons(destination.GetPort());
 
-    uint32_t sended = sendto(m_socket, reinterpret_cast<const int8_t*>(data), size, 0, reinterpret_cast<sockaddr*> (&address), sizeof(sockaddr_in));
+    uint32_t sended = sendto(m_socket, reinterpret_cast<const char*>(data), size, 0, reinterpret_cast<sockaddr*> (&address), sizeof(sockaddr_in));
     if (size - sended) {
         return 0;
     }
@@ -129,7 +129,7 @@ int32_t Socket::Received(Address& sender, void* data, uint32_t size)
 #endif
     socklen_t fromLength = sizeof(from);
 
-    int32_t received = recvfrom(m_socket, reinterpret_cast<int8_t*>(data), size, 0, reinterpret_cast<sockaddr*> (&from), &fromLength);
+    int32_t received = recvfrom(m_socket, reinterpret_cast<char*>(data), size, 0, reinterpret_cast<sockaddr*> (&from), &fromLength);
     if (received <= 0) {
         return 0;
     }
