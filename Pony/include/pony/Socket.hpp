@@ -35,7 +35,6 @@ public:
 
     int32_t Send(const Address& destination, const void* data, uint32_t size);
     int32_t Received(Address& sender, void* data, uint32_t size);
-
 protected:
 private:
 #if defined(_WIN32)

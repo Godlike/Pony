@@ -51,8 +51,9 @@ bool Socket::IsOpen() const
 
 void Socket::Close()
 {
-    if (!m_socket)
+    if (!m_socket) {
 	return;
+    }
 #if defined(_WIN32)
     closesocket(m_socket);
 #else
@@ -63,8 +64,9 @@ void Socket::Close()
 
 bool Socket::Open(uint16_t port)
 {
-    if ((m_socket != 0) || (port <= 0))
+    if ((m_socket != 0) || (port <= 0)) {
 	return false;
+    }
 
     m_socket = ::socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP);
     if (m_socket <= 0) {
@@ -98,25 +100,28 @@ bool Socket::Open(uint16_t port)
 
 int32_t Socket::Send(const Address& destination, const void* data, uint32_t size)
 {
-    if ((m_socket == 0) || (!data) || (!size))
+    if ((m_socket == 0) || (!data) || (!size)) {
         return -1;
+    }
 
     sockaddr_in address;
     address.sin_family = AF_INET;
     address.sin_addr.s_addr = htonl(destination.GetAddress());
     address.sin_port = htons(destination.GetPort());
 
-    uint32_t sended = sendto(m_socket, static_cast<const int8_t*>(data), size, 0, reinterpret_cast<sockaddr*> (&address), sizeof(sockaddr_in));
-    if (size - sended)
+    uint32_t sended = sendto(m_socket, reinterpret_cast<const int8_t*>(data), size, 0, reinterpret_cast<sockaddr*> (&address), sizeof(sockaddr_in));
+    if (size - sended) {
         return 0;
+    }
 
     return sended;
 }
 
 int32_t Socket::Received(Address& sender, void* data, uint32_t size)
 {
-    if ((m_socket == 0) || (!data) || (!size))
+    if ((m_socket == 0) || (!data) || (!size)) {
         return -1;
+    }
 
     sockaddr_in from;
 #if defined(_WIN32)
@@ -124,12 +129,13 @@ int32_t Socket::Received(Address& sender, void* data, uint32_t size)
 #endif
     socklen_t fromLength = sizeof(from);
 
-    int32_t received = recvfrom(m_socket, static_cast<char*>(data), size, 0, reinterpret_cast<sockaddr*> (&from), &fromLength);
-    if (received <= 0)
+    int32_t received = recvfrom(m_socket, reinterpret_cast<int8_t*>(data), size, 0, reinterpret_cast<sockaddr*> (&from), &fromLength);
+    if (received <= 0) {
         return 0;
+    }
 
-    uint32_t address = ntohl(from.sin_addr.s_addr);
-    uint16_t port = ntohs(from.sin_port);
+    const uint32_t address = ntohl(from.sin_addr.s_addr);
+    const uint16_t port = ntohs(from.sin_port);
 
     sender = Address(address, port);
 

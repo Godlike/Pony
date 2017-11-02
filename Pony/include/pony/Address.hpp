@@ -9,7 +9,7 @@
 #ifndef PONY_ADDRESS_HPP
 #define PONY_ADDRESS_HPP
 
-#include <stdint.h>
+#include <cstdint>
 
 namespace pony
 {
@@ -27,9 +27,8 @@ public:
 
     uint8_t GetAddressPart(uint32_t nr) const;
 
-    bool operator == (const Address& rhs) const;
-    bool operator != (const Address& rhs) const;
-
+    bool operator == (Address rhs) const;
+    bool operator != (Address rhs) const;
 protected:
 private:
     uint32_t m_address;
