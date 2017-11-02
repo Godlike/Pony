@@ -13,41 +13,26 @@ namespace pony
 
 Address::Address() : m_address(0), m_port(0) {}
 
-Address::Address(unsigned address) : m_address(address), m_port(0) {}
+Address::Address(uint32_t address) : m_address(address), m_port(0) {}
 
-Address::Address(unsigned address, unsigned short port) : m_address(address), m_port(port) {}
+Address::Address(uint32_t address, uint16_t port) : m_address(address), m_port(port) {}
 
-Address::Address(unsigned char fst, unsigned char snd, unsigned char thd, unsigned char fth, unsigned short port) : m_address(fth), m_port(port)
+Address::Address(uint8_t fst, uint8_t snd, uint8_t thd, uint8_t fth, uint16_t port) : m_address(fth), m_port(port)
 {
     m_address |= ((thd << 8) | (snd << 16) | (fst << 24));
 }
 
-unsigned Address::GetAddress() const
+uint32_t Address::GetAddress() const
 {
     return m_address;
 }
 
-unsigned char Address::GetFst() const
+uint8_t Address::GetAddressPart(uint32_t nr) const
 {
-    return (m_address >> 24);
+    return (m_address >> (32 - 8 * nr));
 }
 
-unsigned char Address::GetSnd() const
-{
-    return (m_address >> 16);
-}
-
-unsigned char Address::GetThd() const
-{
-    return (m_address >>  8);
-}
-
-unsigned char Address::GetFth() const
-{
-    return m_address;
-}
-
-unsigned short Address::GetPort() const
+uint16_t Address::GetPort() const
 {
     return m_port;
 }

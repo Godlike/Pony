@@ -6,7 +6,7 @@
 
 using namespace pony;
 
-TEST_CASE("Address defaults test", "[]")
+TEST_CASE("Address by default test", "[]")
 {
     Address address;
 
@@ -14,7 +14,7 @@ TEST_CASE("Address defaults test", "[]")
     REQUIRE(0 == address.GetPort());
 }
 
-TEST_CASE("Address tests", "[]")
+TEST_CASE("Address in HEX tests", "[]")
 {
     Address address(0x7f000001, 0x8235);
 
@@ -22,12 +22,16 @@ TEST_CASE("Address tests", "[]")
     REQUIRE(0x8235 == address.GetPort());
 }
 
-TEST_CASE("Address tests 2", "[]")
+TEST_CASE("Address in Dot Decimal Notation test", "[]")
 {
-    Address address(127,0,0,1, 33333);
+    Address address(127,0,0,1, 30000);
 
-    REQUIRE(0x7f000001 == address.GetAddress());
-    REQUIRE(33333 == address.GetPort());
+    REQUIRE(127 == address.GetAddressPart(1));
+    REQUIRE(  0 == address.GetAddressPart(2));
+    REQUIRE(  0 == address.GetAddressPart(3));
+    REQUIRE(  1 == address.GetAddressPart(4));
+
+    REQUIRE(30000 == address.GetPort());
 }
 
 TEST_CASE("Equal test", "[]")

@@ -19,7 +19,7 @@ TEST_CASE("Invalid initialization", "[Socket]")
     SocketsKill();
 }
 
-const unsigned short port = 33333;
+const uint16_t port = 33333;
 
 TEST_CASE("Valid initialization", "[Socket]")
 {
@@ -35,10 +35,10 @@ TEST_CASE("Valid initialization", "[Socket]")
     SocketsKill();
 }
 
-const char data[] = "Hello world!";
-const unsigned int localhost = (0x1 | 127 << 24);
+const int8_t data[] = "Hello world!";
+const uint32_t localhost = (0x1 | 127 << 24);
 
-unsigned nrTest = 10;
+uint32_t nrTest = 10;
 
 TEST_CASE("Hello World!", "[Socket]")
 {
@@ -54,9 +54,9 @@ TEST_CASE("Hello World!", "[Socket]")
 	REQUIRE(socket.Send(Address(localhost,port), data,sizeof data) > 0);
 
 	Address sender;
-	char buff[256];
+	int8_t buff[256];
 
-	signed received = socket.Recv(sender, buff,sizeof buff);
+	int32_t received = socket.Received(sender, buff,sizeof buff);
 	if (received) {
 	    REQUIRE(sizeof data == received);
 	    std::cout << buff << std::endl;

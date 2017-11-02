@@ -61,7 +61,7 @@ void Socket::Close()
     m_socket = 0;
 }
 
-bool Socket::Open(unsigned short port)
+bool Socket::Open(uint16_t port)
 {
     if ((m_socket != 0) || (port <= 0))
 	return false;
@@ -77,7 +77,7 @@ bool Socket::Open(unsigned short port)
     address.sin_addr.s_addr = INADDR_ANY;
     address.sin_port = htons(port);
 
-    if (bind(m_socket, (const sockaddr *)&address, sizeof(sockaddr_in)) < 0) {
+    if (bind(m_socket, reinterpret_cast<const sockaddr*> (&address), sizeof(sockaddr_in)) < 0) {
         Close();
         return false;
     }
@@ -96,40 +96,40 @@ bool Socket::Open(unsigned short port)
     return true;
 }
 
-signed Socket::Send(const Address& dst, const void* data, unsigned size)
+int32_t Socket::Send(const Address& destination, const void* data, uint32_t size)
 {
-    if ((m_socket == 0) || (!data) || (size <= 0))
+    if ((m_socket == 0) || (!data) || (!size))
         return -1;
 
     sockaddr_in address;
     address.sin_family = AF_INET;
-    address.sin_addr.s_addr = htonl(dst.GetAddress());
-    address.sin_port = htons(dst.GetPort());
+    address.sin_addr.s_addr = htonl(destination.GetAddress());
+    address.sin_port = htons(destination.GetPort());
 
-    unsigned sended = sendto(m_socket, static_cast<const char*>(data), size, 0, (sockaddr *) &address, sizeof(sockaddr_in));
+    uint32_t sended = sendto(m_socket, static_cast<const int8_t*>(data), size, 0, reinterpret_cast<sockaddr*> (&address), sizeof(sockaddr_in));
     if (size - sended)
         return 0;
 
     return sended;
 }
 
-signed Socket::Recv(Address& sender, void* data, unsigned size)
+int32_t Socket::Received(Address& sender, void* data, uint32_t size)
 {
-    if ((m_socket == 0) || (!data) || (size <= 0))
+    if ((m_socket == 0) || (!data) || (!size))
         return -1;
 
     sockaddr_in from;
 #if defined(_WIN32)
-    typedef int socklen_t;
+    typedef int32_t socklen_t;
 #endif
     socklen_t fromLength = sizeof(from);
 
-    signed received = recvfrom(m_socket, static_cast<char*>(data), size, 0, (sockaddr *) &from, &fromLength);
+    int32_t received = recvfrom(m_socket, static_cast<char*>(data), size, 0, reinterpret_cast<sockaddr*> (&from), &fromLength);
     if (received <= 0)
         return 0;
 
-    unsigned int address = ntohl(from.sin_addr.s_addr);
-    unsigned short port = ntohs(from.sin_port);
+    uint32_t address = ntohl(from.sin_addr.s_addr);
+    uint16_t port = ntohs(from.sin_port);
 
     sender = Address(address, port);
 

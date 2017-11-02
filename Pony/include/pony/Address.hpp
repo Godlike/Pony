@@ -9,6 +9,8 @@
 #ifndef PONY_ADDRESS_HPP
 #define PONY_ADDRESS_HPP
 
+#include <stdint.h>
+
 namespace pony
 {
 
@@ -16,25 +18,22 @@ class Address
 {
 public:
     Address();
-    Address(unsigned address);
-    Address(unsigned address, unsigned short port);
-    Address(unsigned char fst, unsigned char snd, unsigned char thd, unsigned char fth, unsigned short port);
+    Address(uint32_t address);
+    Address(uint32_t address, uint16_t port);
+    Address(uint8_t fst, uint8_t snd, uint8_t thd, uint8_t fth, uint16_t port);
 
-    unsigned GetAddress() const;
-    unsigned short GetPort() const;
+    uint32_t GetAddress() const;
+    uint16_t GetPort() const;
 
-    unsigned char GetFst() const;
-    unsigned char GetSnd() const;
-    unsigned char GetThd() const;
-    unsigned char GetFth() const;
+    uint8_t GetAddressPart(uint32_t nr) const;
 
     bool operator == (const Address& rhs) const;
     bool operator != (const Address& rhs) const;
 
 protected:
 private:
-    unsigned m_address;
-    unsigned short m_port;
+    uint32_t m_address;
+    uint16_t m_port;
 };
 
 } // namespace pony

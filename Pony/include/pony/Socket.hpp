@@ -30,18 +30,18 @@ public:
 
     bool IsOpen() const;
 
-    bool Open(unsigned short port);
+    bool Open(uint16_t port);
     void Close();
 
-    signed Send(const Address& dst, const void* data, unsigned size);
-    signed Recv(Address& sender, void* data, unsigned size);
+    int32_t Send(const Address& destination, const void* data, uint32_t size);
+    int32_t Received(Address& sender, void* data, uint32_t size);
 
 protected:
 private:
 #if defined(_WIN32)
     SOCKET
 #else
-    signed
+    int32_t
 #endif
     m_socket;
 };
