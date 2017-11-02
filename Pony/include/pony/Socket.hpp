@@ -33,9 +33,8 @@ public:
     bool Open(uint16_t port);
     void Close();
 
-    int32_t Send(const Address& destination, const void* data, uint32_t size);
+    int32_t Send(Address destination, const void* data, uint32_t size);
     int32_t Received(Address& sender, void* data, uint32_t size);
-protected:
 private:
 #if defined(_WIN32)
     SOCKET

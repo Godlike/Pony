@@ -29,7 +29,6 @@ public:
 
     bool operator == (Address rhs) const;
     bool operator != (Address rhs) const;
-protected:
 private:
     uint32_t m_address;
     uint16_t m_port;

@@ -98,7 +98,7 @@ bool Socket::Open(uint16_t port)
     return true;
 }
 
-int32_t Socket::Send(const Address& destination, const void* data, uint32_t size)
+int32_t Socket::Send(Address destination, const void* data, uint32_t size)
 {
     if ((m_socket == 0) || (!data) || (!size)) {
         return -1;
