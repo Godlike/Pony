@@ -50,7 +50,8 @@ bool Socket::IsOpen() const
 
 void Socket::Close()
 {
-    if (!m_socket) {
+    if (!m_socket)
+    {
 	return;
     }
 #if defined(_WIN32)
@@ -63,12 +64,14 @@ void Socket::Close()
 
 bool Socket::Open(uint16_t port)
 {
-    if ((m_socket != 0) || (port <= 0)) {
+    if ((m_socket != 0) || (!port))
+    {
 	return false;
     }
 
     m_socket = ::socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP);
-    if (m_socket <= 0) {
+    if (m_socket <= 0)
+    {
 	m_socket = 0;
 	return false;
     }
@@ -78,18 +81,22 @@ bool Socket::Open(uint16_t port)
     address.sin_addr.s_addr = INADDR_ANY;
     address.sin_port = htons(port);
 
-    if (bind(m_socket, reinterpret_cast<const sockaddr*> (&address), sizeof(sockaddr_in)) < 0) {
+    if (bind(m_socket,
+	     reinterpret_cast<const sockaddr*> (&address),
+	     sizeof(sockaddr_in)) < 0)
+    {
         Close();
         return false;
     }
 
 #if defined(_WIN32)
     DWORD nonBlocking = 1;
-    if (ioctlsocket(m_socket, FIONBIO, &nonBlocking) != 0) {
+    if (ioctlsocket(m_socket, FIONBIO, &nonBlocking) != 0)
 #else
     int nonBlocking = 1;
-    if (fcntl(m_socket, F_SETFL, O_NONBLOCK, nonBlocking) == -1) {
+    if (fcntl(m_socket, F_SETFL, O_NONBLOCK, nonBlocking) == -1)
 #endif
+    {
         Close();
         return false;
     }
@@ -99,7 +106,8 @@ bool Socket::Open(uint16_t port)
 
 int32_t Socket::Send(Address destination, const void* data, uint32_t size)
 {
-    if ((m_socket == 0) || (!data) || (!size)) {
+    if ((m_socket == 0) || (!data) || (!size))
+    {
         return -1;
     }
 
@@ -108,8 +116,14 @@ int32_t Socket::Send(Address destination, const void* data, uint32_t size)
     address.sin_addr.s_addr = htonl(destination.GetAddress());
     address.sin_port = htons(destination.GetPort());
 
-    uint32_t sended = sendto(m_socket, reinterpret_cast<const char*>(data), size, 0, reinterpret_cast<sockaddr*> (&address), sizeof(sockaddr_in));
-    if (size - sended) {
+    uint32_t sended = sendto(m_socket,
+			     reinterpret_cast<const char*>(data),
+			     size,
+			     0,
+			     reinterpret_cast<sockaddr*> (&address),
+			     sizeof(sockaddr_in));
+    if (size - sended)
+    {
         return 0;
     }
 
@@ -118,7 +132,8 @@ int32_t Socket::Send(Address destination, const void* data, uint32_t size)
 
 int32_t Socket::Received(Address& sender, void* data, uint32_t size)
 {
-    if ((m_socket == 0) || (!data) || (!size)) {
+    if ((m_socket == 0) || (!data) || (!size))
+    {
         return -1;
     }
 
@@ -128,8 +143,14 @@ int32_t Socket::Received(Address& sender, void* data, uint32_t size)
 #endif
     socklen_t fromLength = sizeof(from);
 
-    int32_t received = recvfrom(m_socket, reinterpret_cast<char*>(data), size, 0, reinterpret_cast<sockaddr*> (&from), &fromLength);
-    if (received <= 0) {
+    int32_t received = recvfrom(m_socket,
+				reinterpret_cast<char*>(data),
+				size,
+				0,
+				reinterpret_cast<sockaddr*> (&from),
+				&fromLength);
+    if (received <= 0)
+    {
         return 0;
     }
 
