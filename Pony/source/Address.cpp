@@ -8,8 +8,7 @@
 
 #include <pony/Address.hpp>
 
-namespace pony
-{
+using namespace pony;
 
 Address::Address() : m_address(0), m_port(0) {}
 
@@ -45,6 +44,4 @@ bool Address::operator== (Address rhs) const
 bool Address::operator!= (Address rhs) const
 {
     return !(*this == rhs);
-}
-
 }

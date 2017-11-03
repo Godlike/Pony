@@ -17,10 +17,9 @@
     #include <fcntl.h>
 #endif
 
-namespace pony
-{
+using namespace pony;
 
-bool SocketsInit()
+bool pony::SocketsInit()
 {
 #if defined(_WIN32)
     WSADATA WsaData;
@@ -30,7 +29,7 @@ bool SocketsInit()
 #endif
 }
 
-void SocketsKill()
+void pony::SocketsKill()
 {
 #if defined(_WIN32)
     WSACleanup();
@@ -140,6 +139,4 @@ int32_t Socket::Received(Address& sender, void* data, uint32_t size)
     sender = Address(address, port);
 
     return received;
-}
-
 }
