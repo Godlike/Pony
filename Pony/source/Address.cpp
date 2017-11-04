@@ -36,12 +36,12 @@ uint16_t Address::GetPort() const
     return m_port;
 }
 
-bool Address::operator== (Address rhs) const
+bool Address::operator== (const Address& rhs) const
 {
-    return (m_address == rhs.GetAddress() && m_port == rhs.GetPort());
+    return ((m_address == rhs.GetAddress()) && (m_port == rhs.GetPort()));
 }
 
-bool Address::operator!= (Address rhs) const
+bool Address::operator!= (const Address& rhs) const
 {
-    return !(*this == rhs);
+    return !(operator==(rhs));
 }

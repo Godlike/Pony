@@ -6,48 +6,44 @@
 
 using namespace pony;
 
-TEST_CASE("Address by default test", "[]")
+TEST_CASE("Address Class", "[Address]")
 {
-    Address address;
+    SECTION( "Address initialization by default" )
+    {
+	Address address;
 
-    REQUIRE(0 == address.GetAddress());
-    REQUIRE(0 == address.GetPort());
-}
+	REQUIRE(0 == address.GetAddress());
+	REQUIRE(0 == address.GetPort());
+    }
 
-TEST_CASE("Address in HEX tests", "[]")
-{
-    Address address(0x7f000001, 0x8235);
+    SECTION( "Address initialization by Address, Port pair in numeric notation" )
+    {
+	Address address(0x7f000001, 0x8235);
 
-    REQUIRE(0x7f000001 == address.GetAddress());
-    REQUIRE(0x8235 == address.GetPort());
-}
+	REQUIRE(0x7f000001 == address.GetAddress());
+	REQUIRE(0x8235 == address.GetPort());
+    }
 
-TEST_CASE("Address in Dot Decimal Notation test", "[]")
-{
-    Address address(127,0,0,1, 30000);
+    SECTION( "Address initialization by Address, Port pair in dot decimal notation" )
+    {
+	Address address(127,0,0,1, 30000);
 
-    REQUIRE(127 == address.GetAddressPart(1));
-    REQUIRE(  0 == address.GetAddressPart(2));
-    REQUIRE(  0 == address.GetAddressPart(3));
-    REQUIRE(  1 == address.GetAddressPart(4));
+	REQUIRE(127 == address.GetAddressPart(1));
+	REQUIRE(  0 == address.GetAddressPart(2));
+	REQUIRE(  0 == address.GetAddressPart(3));
+	REQUIRE(  1 == address.GetAddressPart(4));
+    }
 
-    REQUIRE(30000 == address.GetPort());
-}
+    SECTION( "Address equality/not equality ")
+    {
+	Address A(127,0,0,1, 30000);
+	Address B(127,0,0,1, 30000);
+	Address C(127,0,0,2, 30001);
 
-TEST_CASE("Equal test", "[]")
-{
-    Address addrA(127,0,0,1, 33333);
-    Address addrB(127,0,0,1, 33333);
+	REQUIRE(A.GetAddress() == B.GetAddress());
+	REQUIRE(A.GetPort() == B.GetPort());
 
-    REQUIRE(addrA.GetAddress() == addrB.GetAddress());
-    REQUIRE(addrA.GetPort() == addrB.GetPort());
-}
-
-TEST_CASE("Not equal test", "[]")
-{
-    Address addrA(127,0,0,1, 33333);
-    Address addrB(127,0,0,2, 33334);
-
-    REQUIRE(addrA.GetAddress() != addrB.GetAddress());
-    REQUIRE(addrA.GetPort() != addrB.GetPort());
+	REQUIRE(A.GetAddress() != C.GetAddress());
+	REQUIRE(A.GetPort() != C.GetPort());
+    }
 }

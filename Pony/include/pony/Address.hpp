@@ -27,8 +27,8 @@ public:
 
     uint8_t GetAddressPart(uint32_t nr) const;
 
-    bool operator == (Address rhs) const;
-    bool operator != (Address rhs) const;
+    bool operator== (const Address& rhs) const;
+    bool operator!= (const Address& rhs) const;
 private:
     uint32_t m_address;
     uint16_t m_port;

@@ -18,9 +18,9 @@
 namespace pony
 {
 
-bool SocketsInit();
+bool InitSockets();
 
-void SocketsKill();
+void DeinitSockets();
 
 class Socket
 {
@@ -34,14 +34,13 @@ public:
     void Close();
 
     int32_t Send(Address destination, const void* data, uint32_t size);
-    int32_t Received(Address& sender, void* data, uint32_t size);
+    int32_t Receive(Address& sender, void* data, uint32_t size);
 private:
 #if defined(_WIN32)
-    SOCKET
+    SOCKET m_socket;
 #else
-    int32_t
+    int32_t m_socket;
 #endif
-    m_socket;
 };
 
 } // namespace pony
