@@ -7,6 +7,8 @@ cmake_policy(VERSION 3.0)
 
 project(PonyTests)
 
+set(CMAKE_CXX_STANDARD 14)
+
 include_directories(
     ${PONY_ROOT}/include
     ${CATCH_ROOT}/include

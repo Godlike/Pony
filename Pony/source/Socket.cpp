@@ -9,44 +9,51 @@
 #include <pony/Address.hpp>
 #include <pony/Socket.hpp>
 
-#if defined(_WIN32)
-	#include <winsock2.h>
-	#pragma comment( lib, "ws2_32.lib" )
-	#pragma warning( disable : 4996  ) // get rid of all secure crt warning. (sscanf_s)
-#else
-	#include <sys/socket.h>
-	#include <netinet/in.h>
-	#include <sys/types.h>
-	#include <netinet/in.h>
-	#include <unistd.h>
-	#include <fcntl.h>
-#endif
-
-namespace pony
-{
-
-#if defined(_WIN32)
-void wait_seconds(float seconds) {
-    Sleep((int)(seconds * 1000.0f));
-}
-#else
+#if !defined(_WIN32)
+#include <sys/socket.h>
+#include <sys/types.h>
+#include <netinet/in.h>
 #include <unistd.h>
-void wait_seconds(float seconds) {
-    usleep((int)(seconds * 1000000.0f));
-}
+#include <fcntl.h>
 #endif
+
+using namespace pony;
+
+bool pony::InitSockets()
+{
+#if defined(_WIN32)
+    WSADATA WsaData;
+    return (WSAStartup(MAKEWORD(2,2), &WsaData) == 0);
+#else
+    return true;
+#endif
+}
+
+void pony::DeinitSockets()
+{
+#if defined(_WIN32)
+    WSACleanup();
+#endif
+}
 
 Socket::Socket() : m_socket(0) {}
 
+Socket::~Socket()
+{
+    Close();
+}
+
 bool Socket::IsOpen() const
 {
-    return m_socket > 0;
+    return (0 < m_socket);
 }
 
 void Socket::Close()
 {
-    if ( ! m_socket)
+    if (!m_socket)
+    {
 	return;
+    }
 #if defined(_WIN32)
     closesocket(m_socket);
 #else
@@ -55,82 +62,101 @@ void Socket::Close()
     m_socket = 0;
 }
 
-bool Socket::Open(unsigned short port)
+bool Socket::Open(uint16_t port)
 {
-    if ((m_socket != 0) || (port <= 0))
-	return false;
+    if (m_socket || (!port))
+    {
+        return false;
+    }
 
     m_socket = ::socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP);
-    if (m_socket <= 0) {
-	m_socket = 0;
-	return false;
+    if (0 >= m_socket)
+    {
+        m_socket = 0;
+        return false;
     }
 
     sockaddr_in address;
-
     address.sin_family = AF_INET;
     address.sin_addr.s_addr = INADDR_ANY;
-    address.sin_port = htons((unsigned short) port);
+    address.sin_port = htons(port);
 
-    if (bind(m_socket, (const sockaddr *)&address, sizeof(sockaddr_in)) < 0) {
+    if (0 > bind(m_socket, reinterpret_cast<const sockaddr*> (&address), sizeof(sockaddr_in)))
+    {
         Close();
         return false;
     }
 
 #if defined(_WIN32)
     DWORD nonBlocking = 1;
-    if (ioctlsocket( socket, FIONBIO, &nonBlocking) != 0) {
-	printf( "failed to set non-blocking socket\n" );
-	Close();
-	return false;
-    }
+    if (ioctlsocket(m_socket, FIONBIO, &nonBlocking) != 0)
 #else
     int nonBlocking = 1;
-    if (fcntl(m_socket, F_SETFL, O_NONBLOCK, nonBlocking) == -1) {
+    if (fcntl(m_socket, F_SETFL, O_NONBLOCK, nonBlocking) == -1)
+#endif
+    {
         Close();
         return false;
     }
-#endif
+
     return true;
 }
 
-int Socket::Send(const Address & dst, const void * data, unsigned size)
+int32_t Socket::Send(Address destination, const void* data, uint32_t size)
 {
-    if ((m_socket == 0) || ( ! data) || (size <=0))
+    if ((!m_socket) || (!data) || (!size))
+    {
         return -1;
+    }
 
     sockaddr_in address;
     address.sin_family = AF_INET;
-    address.sin_addr.s_addr = htonl(dst.GetAddress());
-    address.sin_port        = htons((unsigned short) dst.GetPort());
+    address.sin_addr.s_addr = htonl(destination.GetAddress());
+    address.sin_port = htons(destination.GetPort());
 
-    int sended_bytes = sendto(m_socket, (const char*)data, size, 0, (sockaddr*)&address, sizeof(sockaddr_in));
-    if (size - sended_bytes)
+    uint32_t sent = sendto(m_socket,
+                           reinterpret_cast<const char*> (data),
+                           size,
+                           0,
+                           reinterpret_cast<sockaddr*> (&address),
+                           sizeof(sockaddr_in));
+    if (size - sent)
+    {
         return 0;
+    }
 
-    return sended_bytes;
+    return sent;
 }
 
-int Socket::Recv(Address & sender, void * data, unsigned size)
+int32_t Socket::Receive(Address& sender, void* data, uint32_t size)
 {
-    if ((m_socket == 0) || ( ! data) || (size <=0))
+    if ((!m_socket) || (!data) || (!size))
+    {
         return -1;
+    }
 
     sockaddr_in from;
 #if defined(_WIN32)
-	typedef int socklen_t;
+    typedef int32_t socklen_t;
 #endif
     socklen_t fromLength = sizeof(from);
 
-    int received_bytes = recvfrom(m_socket, (char*)data, size, 0, (sockaddr*)&from, &fromLength);
-    if (received_bytes <= 0)
+    int32_t received = recvfrom(m_socket,
+                                reinterpret_cast<char*> (data),
+                                size,
+                                0,
+                                reinterpret_cast<sockaddr*> (&from),
+                                &fromLength);
+    if (0 >= received)
+    {
         return 0;
+    }
 
-    unsigned int address = ntohl(from.sin_addr.s_addr);
-    unsigned int port = ntohs(from.sin_port);
-    sender = Address(address, port);
+    const uint32_t address = ntohl(from.sin_addr.s_addr);
+    const uint16_t port = ntohs(from.sin_port);
 
-    return received_bytes;
-}
 
+    sender = Address(port, address);
+
+    return received;
 }

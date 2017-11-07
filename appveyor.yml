@@ -5,31 +5,31 @@ image: Visual Studio 2017
 configuration:
   - Debug
   - Release
+
 platform: x64
-clone_folder: "c:\\Pony"
+clone_folder: "c:\\PonyProject"
 
 init:
   - ps: iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
 
 install:
   - git submodule update --init --recursive
-  - mkdir build
-  - cd build
-  - cmake -G "Visual Studio 15 2017 Win64" ..
+  - mkdir build && cd build
+  - cmake -G "Visual Studio 15 2017 Win64" -DCMAKE_WINDOWS_EXPORT_ALL_SYMBOLS=TRUE -DBUILD_SHARED_LIBS=TURE ..
 
 build:
-  project: "build\\Pony.sln"
+  project: "build\\PonyProject.sln"
   parallel: true
   verbosity: minimal
 
 test_script:
-  - cd %APPVEYOR_BUILD_FOLDER%/build
+  - cd %APPVEYOR_BUILD_FOLDER%\build
   - ctest -VV -C %CONFIGURATION%
 
 notifications:
 - provider: Email
   to:
-    - iuniqums@gmail.com
+    - igalius@gmail.com
+  on_build_status_changed: true
   on_build_success: false
   on_build_failure: true
-  on_build_status_changed: true

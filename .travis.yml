@@ -8,29 +8,23 @@ env:
     - GH_REPO_REF: github.com/Godlike/Pony.git
     - BUILD_DIR: build
 
+language: cpp
 sudo: required
-os: linux
+
+os:
+  - linux
+  - osx
+
+compiler: g++
 dist: trusty
 
-matrix:
-  include:
-    addons:
-      apt:
-        sources:
-          - ubuntu-toolchain-r-test
-        packages:
-          - g++-6
-      env:
-        - MATRIX_EVAL="CC=gcc-6 && CXX=g++-6"
-
 before_install:
-- sudo apt-get -qq update
-- eval "${MATRIX_EVAL}"
-- git submodule update --init --recursive
+  - git submodule update --init --recursive
 
 script:
-- mkdir build && cd build && cmake .. && make
-- ctest -VV
+  - cd $TRAVIS_BUILD_DIR
+  - chmod +x travisBuild.sh
+  - ./travisBuild.sh
 
 notifications:
   email:
