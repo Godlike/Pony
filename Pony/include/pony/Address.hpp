@@ -17,21 +17,16 @@ namespace pony
 class Address
 {
 public:
-    Address();
-    Address(uint32_t address);
-    Address(uint32_t address, uint16_t port);
-    Address(uint8_t fst, uint8_t snd, uint8_t thd, uint8_t fth, uint16_t port);
+    Address(uint16_t port = 0, uint32_t address = 0);
 
     uint32_t GetAddress() const;
     uint16_t GetPort() const;
 
-    uint8_t GetAddressPart(uint32_t nr) const;
-
     bool operator== (const Address& rhs) const;
     bool operator!= (const Address& rhs) const;
 private:
-    uint32_t m_address;
     uint16_t m_port;
+    uint32_t m_address;
 };
 
 } // namespace pony

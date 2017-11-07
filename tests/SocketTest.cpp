@@ -26,10 +26,10 @@ TEST_CASE("Socket Class", "[Socket]")
 
         uint32_t nrTest = 10;
         do {
-            const uint32_t localhost = (0x1 | 127 << 24);
+            const uint32_t localhost = (0x1 | (127 << 24));
             const char data[] = "Hello world!";
 
-            REQUIRE(0 < socket.Send(Address(localhost, port), data,sizeof data));
+            REQUIRE(0 < socket.Send(Address(port, localhost), data,sizeof data));
 
             Address sender;
             char buff[256];
@@ -38,6 +38,8 @@ TEST_CASE("Socket Class", "[Socket]")
             {
                 REQUIRE(sizeof data == received);
                 cout << buff << endl;
+                //cout << "address = " << sender.GetAddress();
+                //cout << "port = " << sender.GetPort();
                 REQUIRE(localhost == sender.GetAddress());
                 REQUIRE(port == sender.GetPort());
             }

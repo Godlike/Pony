@@ -155,7 +155,8 @@ int32_t Socket::Receive(Address& sender, void* data, uint32_t size)
     const uint32_t address = ntohl(from.sin_addr.s_addr);
     const uint16_t port = ntohs(from.sin_port);
 
-    sender = Address(address, port);
+
+    sender = Address(port, address);
 
     return received;
 }
