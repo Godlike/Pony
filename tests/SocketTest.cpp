@@ -38,8 +38,6 @@ TEST_CASE("Socket Class", "[Socket]")
             {
                 REQUIRE(sizeof data == received);
                 cout << buff << endl;
-                //cout << "address = " << sender.GetAddress();
-                //cout << "port = " << sender.GetPort();
                 REQUIRE(localhost == sender.GetAddress());
                 REQUIRE(port == sender.GetPort());
             }
